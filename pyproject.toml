@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "pomodoro-time"
+version = "0.1.0"
+description = ""
+authors = ["Vitali Maisiuk <vitali.maisiuk@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.115.12"
+pydantic-settings = "^2.9.1"
+sqlalchemy = "^2.0.41"
+alembic = "^1.16.1"
+psycopg2 = "^2.9.10"
+redis = "^6.2.0"
+python-jose = {extras = ["cryptography"], version = "^3.5.0"}
+uvicorn = "^0.34.3"
+passlib = {extras = ["bcrypt"], version = "^1.7.4"}
+requests = "^2.32.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
