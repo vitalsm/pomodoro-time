@@ -5,6 +5,7 @@ from typing import Union, Any
 from passlib.context import CryptContext
 
 from jose import jwt, JWTError
+from sqlalchemy.util import await_only
 
 from exception import UserNotFoundExeption, UserPasswordException, TokenNotCorrect, TokenExpired
 from models import UserProfile
@@ -29,16 +30,16 @@ class AuthService:
     def verify_password(self, password: str, hashed_pass: str) -> bool:
         return self.password_context.verify(password, hashed_pass)
 
-    def google_auth(self, code: str):
-        user_data = self.google_client.get_user_info(code)
-        return self.oauth_login(user_data)
+    async def google_auth(self, code: str):
+        user_data = await self.google_client.get_user_info(code)
+        return await self.oauth_login(user_data)
 
-    def yandex_auth(self, code: str):
-        user_data = self.yandex_client.get_user_info(code=code)
-        return self.oauth_login(user_data)
+    async def yandex_auth(self, code: str):
+        user_data = await self.yandex_client.get_user_info(code=code)
+        return await self.oauth_login(user_data)
 
-    def oauth_login(self, user_data: GoogleUserData | YandexUserData) -> UserLoginSchema:
-        if user := self.user_repository.get_user_by_email(email=user_data.email):
+    async def oauth_login(self, user_data: GoogleUserData | YandexUserData) -> UserLoginSchema:
+        if user := await self.user_repository.get_user_by_email(email=user_data.email):
             access_token = self.generate_access_token(user_id=user.id)
             return UserLoginSchema(user_id=user.id, access_token=access_token)
 
@@ -46,7 +47,7 @@ class AuthService:
             email=user_data.email,
             name=user_data.name,
         )
-        created_user = self.user_repository.create_user(create_user_data)
+        created_user = await self.user_repository.create_user(create_user_data)
         access_token = self.generate_access_token(user_id=created_user.id)
         return UserLoginSchema(user_id=created_user.id, access_token=access_token)
 
@@ -56,8 +57,8 @@ class AuthService:
     def get_yandex_redirect_url(self) -> str:
         return self.settings.yandex_redirect_url
 
-    def login(self, username: str, password: str) -> UserLoginSchema:
-        user = self.user_repository.get_user_by_username(username)
+    async def login(self, username: str, password: str) -> UserLoginSchema:
+        user = await self.user_repository.get_user_by_username(username)
         self._validate_auth_user(user, password)
         access_token = self.generate_access_token(user_id=user.id)
         return UserLoginSchema(user_id=user.id, access_token=access_token)

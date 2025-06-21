@@ -1,4 +1,4 @@
-import redis
+from redis import asyncio as redis
 from settings import settings
 
 
@@ -8,4 +8,3 @@ def get_redis_connection() -> redis.Redis:
         port=settings.REDIS_PORT,
         db=settings.REDIS_DB
     )
-
