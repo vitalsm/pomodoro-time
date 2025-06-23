@@ -18,6 +18,8 @@ class GoogleClient:
             'https://www.googleapis.com/oauth2/v1/userinfo',
             headers={'Authorization': f'Bearer {access_token}'}
         )
+        await self.async_client.aclose()
+
         return GoogleUserData(**user_info.json(), access_token=access_token)
 
     async def _get_user_access_token(self, code: str) -> str:
@@ -28,6 +30,7 @@ class GoogleClient:
             'redirect_uri': self.settings.GOOGLE_REDIRECT_URI,
             'grant_type': 'authorization_code'
         }
+
         response = await self.async_client.post(self.settings.GOOGLE_TOKEN_URI, data=data)
 
         if response.status_code == 200:

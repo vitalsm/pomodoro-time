@@ -5,7 +5,6 @@ from typing import Union, Any
 from passlib.context import CryptContext
 
 from jose import jwt, JWTError
-from sqlalchemy.util import await_only
 
 from exception import UserNotFoundExeption, UserPasswordException, TokenNotCorrect, TokenExpired
 from models import UserProfile

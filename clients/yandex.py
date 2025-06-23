@@ -18,6 +18,8 @@ class YandexClient:
             'https://login.yandex.ru/info?format=json',
             headers={'Authorization': f'OAuth {access_token}'}
         )
+        await self.async_client.aclose()
+
         return YandexUserData(**user_info.json(), access_token=access_token)
 
     async def _get_user_access_token(self, code: str) -> str:
