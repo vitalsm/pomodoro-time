@@ -2,10 +2,10 @@ from typing import Annotated
 
 from fastapi import APIRouter, status, Depends, HTTPException
 
-from dependency import get_task_service, get_request_user_id
-from exception import TaskNotFound
-from schemas import TaskSchema, TaskCreateSchema
-from service import TaskService
+from app.dependency import get_task_service, get_request_user_id
+from app.exception import TaskNotFound
+from app.schemas import TaskSchema, TaskCreateSchema
+from app.service import TaskService
 
 router = APIRouter(prefix='/task', tags=['task'])
 

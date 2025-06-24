@@ -3,8 +3,8 @@ from dataclasses import dataclass
 import httpx
 from fastapi import HTTPException
 
-from schemas import GoogleUserData
-from settings import settings
+from app.schemas import GoogleUserData
+from app.settings import settings
 
 
 @dataclass

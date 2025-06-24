@@ -1,8 +1,8 @@
 .DEFAULT_GOAL := help
 
 run: ## Run the application using uvicorn with provided args or defaults
-	poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --env-file $(ENV_FILE)
-	##poetry run gunicorn main:app -c infra/ginicorn.conf.py
+	poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --env-file $(ENV_FILE)
+	##poetry run gunicorn app.main:app -c gunicorn.conf.py
 
 install: ## Install dependency using poetry
 	@echo "Installing dependency $(LIBRARY)"

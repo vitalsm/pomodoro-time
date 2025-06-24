@@ -1,9 +1,8 @@
 from sqlalchemy import select, delete, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.util import await_only
 
-from models import Tasks, Categories
-from schemas import TaskCreateSchema
+from app.models import Tasks, Categories
+from app.schemas import TaskCreateSchema
 
 
 class TaskRepository:

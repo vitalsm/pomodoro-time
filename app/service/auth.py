@@ -6,12 +6,12 @@ from passlib.context import CryptContext
 
 from jose import jwt, JWTError
 
-from exception import UserNotFoundExeption, UserPasswordException, TokenNotCorrect, TokenExpired
-from models import UserProfile
-from repository import UserRepository
-from schemas import UserLoginSchema, UserCreateSchema, GoogleUserData, YandexUserData
-from settings import settings
-from clients import GoogleClient, YandexClient
+from app.exception import UserNotFoundExeption, UserPasswordException, TokenNotCorrect, TokenExpired
+from app.models import UserProfile
+from app.repository import UserRepository
+from app.schemas import UserLoginSchema, UserCreateSchema, GoogleUserData, YandexUserData
+from app.settings import settings
+from app.clients import GoogleClient, YandexClient
 
 
 @dataclass
