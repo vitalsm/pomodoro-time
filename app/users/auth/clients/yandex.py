@@ -3,8 +3,8 @@ from dataclasses import dataclass
 import httpx
 from fastapi import HTTPException
 
-from app.schemas import YandexUserData
 from app.settings import settings
+from app.users.auth.schema import YandexUserData
 
 
 @dataclass

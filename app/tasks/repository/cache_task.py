@@ -2,7 +2,7 @@ import json
 
 from redis import asyncio as Redis
 
-from app.schemas.task import TaskSchema
+from app.tasks.schema import TaskSchema
 
 
 class TaskCache:

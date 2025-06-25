@@ -7,11 +7,12 @@ from passlib.context import CryptContext
 from jose import jwt, JWTError
 
 from app.exception import UserNotFoundExeption, UserPasswordException, TokenNotCorrect, TokenExpired
-from app.models import UserProfile
-from app.repository import UserRepository
-from app.schemas import UserLoginSchema, UserCreateSchema, GoogleUserData, YandexUserData
 from app.settings import settings
-from app.clients import GoogleClient, YandexClient
+from app.users.auth.clients import GoogleClient, YandexClient
+from app.users.auth.schema import GoogleUserData, YandexUserData, UserLoginSchema
+from app.users.user_profile.models import UserProfile
+from app.users.user_profile.repository import UserRepository
+from app.users.user_profile.schema import UserCreateSchema
 
 
 @dataclass
