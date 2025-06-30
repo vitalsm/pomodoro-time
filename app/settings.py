@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     YANDEX_CLIENT_SECRET: str
     YANDEX_REDIRECT_URI: str
     YANDEX_TOKEN_URI: str
-    BASE_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__)))
+    BASE_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 
     @property
     def database_url(self) -> str:
