@@ -5,6 +5,7 @@ from faker import Factory
 
 from app.settings import settings as conf
 from app.users.auth.schema import GoogleUserData, YandexUserData
+from tests.fixtures.users.user_model import TEST_GOOGLE_USER_ID, TEST_GOOGLE_USER_EMAIL
 
 faker = Factory.create()
 
@@ -15,10 +16,10 @@ class FakeGoogleClient:
     async_client: httpx.AsyncClient
 
     async def get_user_info(self, code: str) -> GoogleUserData:
-        access_token = self._get_user_access_token(code=code)
+        access_token = await self._get_user_access_token(code=code)
         return google_user_info_data()
 
-    def _get_user_access_token(self, code: str) -> str:
+    async def _get_user_access_token(self, code: str) -> str:
         return (f'fake access token {code}')
 
 
@@ -28,10 +29,10 @@ class FakeYandexClient:
     async_client: httpx.AsyncClient
 
     async def get_user_info(self, code: str) -> YandexUserData:
-        access_token = self._get_user_access_token(code=code)
+        access_token = await self._get_user_access_token(code=code)
         return yandex_user_info_data()
 
-    def _get_user_access_token(self, code: str) -> str:
+    async def _get_user_access_token(self, code: str) -> str:
         return (f'fake access token {code}')
 
 
@@ -47,8 +48,8 @@ def yandex_client():
 
 def google_user_info_data() -> GoogleUserData:
     return GoogleUserData(
-        id=faker.random_int(),
-        email=faker.email(),
+        id=TEST_GOOGLE_USER_ID,
+        email=TEST_GOOGLE_USER_EMAIL,
         name=faker.name(),
         access_token=faker.sha256(),
         verified_email=True
