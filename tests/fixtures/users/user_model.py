@@ -7,6 +7,10 @@ from app.users.user_profile.models import UserProfile
 faker = FakerFactory.create()
 
 
+TEST_GOOGLE_USER_ID = 20
+TEST_GOOGLE_USER_EMAIL = 'google.test@test.mail'
+
+
 @register(_name='user_profile')
 class UserProfileFactory(factory.Factory):
     class Meta:
