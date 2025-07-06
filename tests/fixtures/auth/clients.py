@@ -3,7 +3,7 @@ import pytest
 import httpx
 from faker import Factory
 
-from app.settings import settings as conf
+from app.settings import settings
 from app.users.auth.schema import GoogleUserData, YandexUserData
 from tests.fixtures.users.user_model import TEST_GOOGLE_USER_ID, TEST_GOOGLE_USER_EMAIL
 
@@ -12,7 +12,7 @@ faker = Factory.create()
 
 @dataclass
 class FakeGoogleClient:
-    settings: conf
+    settings: settings
     async_client: httpx.AsyncClient
 
     async def get_user_info(self, code: str) -> GoogleUserData:
@@ -25,7 +25,7 @@ class FakeGoogleClient:
 
 @dataclass
 class FakeYandexClient:
-    settings: conf
+    settings: settings
     async_client: httpx.AsyncClient
 
     async def get_user_info(self, code: str) -> YandexUserData:
@@ -37,13 +37,13 @@ class FakeYandexClient:
 
 
 @pytest.fixture
-def google_client():
-    return FakeGoogleClient(settings=conf, async_client=httpx.AsyncClient())
+def google_client(settings):
+    return FakeGoogleClient(settings=settings, async_client=httpx.AsyncClient())
 
 
 @pytest.fixture
-def yandex_client():
-    return FakeYandexClient(settings=conf, async_client=httpx.AsyncClient())
+def yandex_client(settings):
+    return FakeYandexClient(settings=settings, async_client=httpx.AsyncClient())
 
 
 def google_user_info_data() -> GoogleUserData:

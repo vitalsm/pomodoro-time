@@ -1,4 +1,3 @@
-import pytest
 import pytest_asyncio
 
 from app.settings import settings as conf

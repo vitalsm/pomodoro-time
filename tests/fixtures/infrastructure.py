@@ -9,6 +9,7 @@ from app.infrastructure.database import Base
 
 @pytest.fixture
 def settings():
+    s.DB_NAME = 'pomodoro-test'
     return s
 
 
