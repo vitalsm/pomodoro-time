@@ -9,6 +9,11 @@ services:
     ports:
       - "5430:5432"
 
+  worker:
+    command: celery -A worker.celery worker --loglevel=info
+    depends_on:
+      - redis-test
+
   redis-test:
     image: redis:8.0.2-alpine
     restart: always

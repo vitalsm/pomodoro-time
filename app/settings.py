@@ -1,9 +1,11 @@
 import os
+import ssl
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
+    BASE_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     DB_LOGIN: str
     DB_PASS: str
     DB_SERVER: str
@@ -29,7 +31,15 @@ class Settings(BaseSettings):
     YANDEX_CLIENT_SECRET: str
     YANDEX_REDIRECT_URI: str
     YANDEX_TOKEN_URI: str
-    BASE_DIR: str = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    FROM_EMAIL: str
+    SMTP_PORT: int
+    SMTP_HOST: str
+    SMTP_PASSWORD: str
+
+
+    @property
+    def celery_broker_url(self) -> str:
+        return f'redis://{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}'
 
     @property
     def database_url(self) -> str:
@@ -44,5 +54,9 @@ class Settings(BaseSettings):
         return f"https://oauth.yandex.ru/authorize?response_type=code&client_id={self.YANDEX_CLIENT_ID}&force_confirm=yes"
 
     model_config = SettingsConfigDict(env_file=f"{BASE_DIR}/.local.env")
+
+
+# Опции для работы с SSL, отключаем проверку сертификата (подходит для отладки)
+ssl_options = {"ssl_cert_reqs": ssl.CERT_NONE}
 
 settings = Settings()
