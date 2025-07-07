@@ -1,6 +1,7 @@
+import asyncio
 from typing import Annotated
 
-from fastapi import APIRouter, status, Depends, HTTPException
+from fastapi import APIRouter, status, Depends, HTTPException, BackgroundTasks
 
 from app.dependency import get_task_service, get_request_user_id
 from app.exception import TaskNotFound
@@ -10,11 +11,19 @@ from app.tasks.service import TaskService
 router = APIRouter(prefix='/task', tags=['task'])
 
 
+async def get_task_log(tasks_count: int):
+    await asyncio.sleep(3.0)
+    print(f'got {tasks_count} tasks')
+
+
 @router.get('/all', response_model=list[TaskSchema])
 async def get_tasks(
-        task_service: Annotated[TaskService, Depends(get_task_service)]
+        task_service: Annotated[TaskService, Depends(get_task_service)],
+        background_tasks: BackgroundTasks
 ):
-    return await task_service.get_tasks()
+    tasks = await task_service.get_tasks()
+    background_tasks.add_task(get_task_log, tasks_count=len(tasks))
+    return tasks
 
 
 @router.post('/', response_model=TaskSchema)

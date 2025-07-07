@@ -8,7 +8,7 @@ from jose import jwt, JWTError
 
 from app.exception import UserNotFoundExeption, UserPasswordException, TokenNotCorrect, TokenExpired
 from app.settings import settings
-from app.users.auth.clients import GoogleClient, YandexClient
+from app.users.auth.clients import GoogleClient, YandexClient, MailClient
 from app.users.auth.schema import GoogleUserData, YandexUserData, UserLoginSchema
 from app.users.user_profile.models import UserProfile
 from app.users.user_profile.repository import UserRepository
@@ -21,6 +21,7 @@ class AuthService:
     settings: settings
     google_client: GoogleClient
     yandex_client: YandexClient
+    mail_client: MailClient
 
     password_context = CryptContext(schemes=['bcrypt'], deprecated='auto')
 
@@ -49,6 +50,7 @@ class AuthService:
         )
         created_user = await self.user_repository.create_user(create_user_data)
         access_token = self.generate_access_token(user_id=created_user.id)
+        self.mail_client.send_welcome_email(to=user_data.email)
         return UserLoginSchema(user_id=created_user.id, access_token=access_token)
 
     def get_google_redirect_url(self) -> str:

@@ -26,6 +26,8 @@ pytest = "^8.4.1"
 twisted = "^25.5.0"
 pytest-asyncio = "^1.0.0"
 pytest-factoryboy = "^2.8.0"
+celery = "^5.5.3"
+flower = "^2.0.1"
 
 
 [build-system]
