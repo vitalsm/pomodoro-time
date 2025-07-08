@@ -5,7 +5,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.infrastructure.cache import get_redis_connection
 from app.tasks.service import TaskService
-from app.users.auth.clients import GoogleClient, YandexClient
+from app.users.auth.clients import GoogleClient, YandexClient, MailClient
 from app.infrastructure.database import get_db_session
 from app.exception import TokenExpired, TokenNotCorrect
 from app.tasks.repository import TaskRepository, TaskCache
@@ -15,12 +15,18 @@ from app.users.user_profile.repository import UserRepository
 from app.users.user_profile.service import UserService
 
 
+async def get_mail_client() -> MailClient:
+    return MailClient(settings=settings)
+
+
 async def get_tasks_repository(db_session: AsyncSession = Depends(get_db_session)) -> TaskRepository:
     return TaskRepository(db_session)
+
 
 async def get_tasks_cache_repository() -> TaskCache:
     redis_connection = get_redis_connection()
     return TaskCache(redis_connection)
+
 
 async def get_task_service(
         task_repository: TaskRepository = Depends(get_tasks_repository),
@@ -31,28 +37,37 @@ async def get_task_service(
         task_cache=task_cache
     )
 
+
 async def get_user_repository(db_session: AsyncSession = Depends(get_db_session)) -> UserRepository:
     return UserRepository(db_session=db_session)
+
 
 async def get_async_client() -> httpx.AsyncClient:
     return httpx.AsyncClient()
 
+
 async def get_google_client(async_client: httpx.AsyncClient = Depends(get_async_client)) -> GoogleClient:
     return GoogleClient(settings=settings, async_client=async_client)
+
 
 async def get_yandex_client(async_client: httpx.AsyncClient = Depends(get_async_client)) -> YandexClient:
     return YandexClient(settings=settings, async_client=async_client)
 
+
+
 async def get_auth_service(
         user_repository: UserRepository = Depends(get_user_repository),
         google_client: GoogleClient = Depends(get_google_client),
-        yandex_client: YandexClient = Depends(get_yandex_client)
+        yandex_client: YandexClient = Depends(get_yandex_client),
+        mail_client: MailClient = Depends(get_mail_client)
 ) -> AuthService:
     return AuthService(
         user_repository=user_repository,
         settings=settings,
         google_client=google_client,
-        yandex_client=yandex_client)
+        yandex_client=yandex_client,
+        mail_client=mail_client)
+
 
 async def get_user_service(
         user_repository: UserRepository = Depends(get_user_repository),

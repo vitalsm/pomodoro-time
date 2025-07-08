@@ -35,11 +35,15 @@ class Settings(BaseSettings):
     SMTP_PORT: int
     SMTP_HOST: str
     SMTP_PASSWORD: str
+    RABBITMQ_USER: str
+    RABBITMQ_PASS: str
+    RABBITMQ_PORT: int
+    TEST_GOOGLE_EMAIL: str
 
 
     @property
     def celery_broker_url(self) -> str:
-        return f'redis://{self.REDIS_HOST}:{self.REDIS_PORT}/{self.REDIS_DB}'
+        return f'amqp://{self.RABBITMQ_USER}:{self.RABBITMQ_PASS}@localhost:{self.RABBITMQ_PORT}//'
 
     @property
     def database_url(self) -> str:

@@ -28,6 +28,7 @@ pytest-asyncio = "^1.0.0"
 pytest-factoryboy = "^2.8.0"
 celery = "^5.5.3"
 flower = "^2.0.1"
+aio-pika = "^9.5.5"
 
 
 [build-system]
