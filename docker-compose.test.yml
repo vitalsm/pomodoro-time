@@ -9,13 +9,14 @@ services:
     ports:
       - "5430:5432"
 
-  worker:
-    command: celery -A worker.celery worker --loglevel=info
-    depends_on:
-      - redis-test
-
   redis-test:
     image: redis:8.0.2-alpine
     restart: always
     ports:
       - '6379:6379'
+
+  rabbitmq-test:
+    image: rabbitmq:4.1.2-management
+    ports:
+      - '5672:5672'
+      - '15672:15672'
