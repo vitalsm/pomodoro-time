@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "pomodoro-time"
+name = "pomodoro_time"
 version = "0.1.0"
 description = ""
 authors = ["Vitali Maisiuk <vitali.maisiuk@gmail.com>"]
