@@ -39,6 +39,9 @@ class Settings(BaseSettings):
     RABBITMQ_PASS: str
     RABBITMQ_PORT: int
     TEST_GOOGLE_EMAIL: str
+    BROKER_URL: str = 'localhost:9092'
+    EMAIL_TOPIC: str = 'email_topic'
+    EMAIL_CALLBACK_TOPIC: str = 'email_callback_topic'
 
 
     @property
