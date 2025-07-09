@@ -1,6 +1,10 @@
 import asyncio
 
 import pytest
+from pytest_asyncio.plugin import event_loop_policy
+
+# import uvloop
+# asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 pytest_plugins = [
@@ -12,12 +16,15 @@ pytest_plugins = [
 ]
 
 
-@pytest.fixture(scope="session")
-def event_loop():
-    try:
-        loop = asyncio.get_running_loop()
-    except RuntimeError:
-        loop = asyncio.new_event_loop()
-
+@pytest.fixture(scope="function")
+def event_loop(event_loop_policy):
+    loop = event_loop_policy.new_event_loop()
     yield loop
     loop.close()
+
+# @pytest.fixture(scope='session')
+# def event_loop():
+#     yield asyncio.get_event_loop()
+#
+# def pytest_sessionfinish(session, exitstatus):
+#     asyncio.get_event_loop().close()

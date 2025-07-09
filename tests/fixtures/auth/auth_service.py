@@ -1,5 +1,6 @@
 import pytest_asyncio
 
+from app.dependency import get_broker_producer
 from app.settings import settings as conf
 from app.users.auth.clients import MailClient
 from app.users.auth.service import AuthService
@@ -13,7 +14,7 @@ async def mock_auth_service(yandex_client ,google_client, fake_user_repository):
         settings=conf,
         google_client=google_client,
         yandex_client=yandex_client,
-        mail_client=MailClient(settings=conf)
+        mail_client=MailClient(settings=conf, broker_producer=await get_broker_producer())
     )
 
 
@@ -24,5 +25,5 @@ async def auth_service(yandex_client, google_client, mock_auth_service, db_sessi
         google_client=google_client,
         yandex_client=yandex_client,
         settings=conf,
-        mail_client=MailClient(settings=conf)
+        mail_client=MailClient(settings=conf, broker_producer=await get_broker_producer())
     )
