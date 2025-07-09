@@ -44,4 +44,7 @@ build-backend = "poetry.core.masonry.api"
 asyncio_mode = "auto"
 
 [tool.black]
-line-lenght=120
+line-length=120
+
+[tool.ruff]
+line-length=120
