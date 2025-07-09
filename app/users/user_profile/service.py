@@ -16,5 +16,5 @@ class UserService:
         user.password = hashed_pass
         user = await self.user_repository.create_user(user)
         access_token = self.auth_service.generate_access_token(user_id=user.id)
-        refresh_token = self.auth_service.generate_refresh_token(user.username)
+        self.auth_service.generate_refresh_token(user.username)
         return UserLoginSchema(user_id=user.id, access_token=access_token)
