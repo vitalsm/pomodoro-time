@@ -36,6 +36,25 @@ class FakeYandexClient:
         return (f'fake access token {code}')
 
 
+class FakeProducer:
+    pass
+
+
+@dataclass
+class FakeBrokerProducer:
+    producer: FakeProducer
+    email_topic: str
+
+
+@dataclass
+class FakeMailClient:
+    settings: settings
+    broker_producer: FakeBrokerProducer
+
+    async def send_welcome_email(self, to: str) -> None:
+        pass
+
+
 @pytest.fixture
 def google_client(settings):
     return FakeGoogleClient(settings=settings, async_client=httpx.AsyncClient())
@@ -44,6 +63,17 @@ def google_client(settings):
 @pytest.fixture
 def yandex_client(settings):
     return FakeYandexClient(settings=settings, async_client=httpx.AsyncClient())
+
+
+@pytest.fixture
+def mail_client(settings):
+    return FakeMailClient(
+        settings=settings,
+        broker_producer=FakeBrokerProducer(
+            producer=FakeProducer(),
+            email_topic='email_topic',
+        )
+    )
 
 
 def google_user_info_data() -> GoogleUserData:

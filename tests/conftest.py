@@ -16,7 +16,7 @@ pytest_plugins = [
 ]
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture(scope="session")
 def event_loop(event_loop_policy):
     loop = event_loop_policy.new_event_loop()
     yield loop

@@ -21,7 +21,7 @@ engine = create_async_engine(
 )
 
 
-@pytest_asyncio.fixture(scope='function', autouse=True)
+@pytest_asyncio.fixture(scope='function')
 async def async_db_engine(event_loop):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
