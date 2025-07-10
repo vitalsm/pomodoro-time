@@ -51,6 +51,7 @@ jobs:
           touch .local.env
           echo JWT_ENCODE_ALGORITHM=HS256 >> .local.env
           echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .local.env
+          echo JWT_REFRESH_SECRET_KEY=${{ secrets.JWT_REFRESH_SECRET_KEY }} >> .local.env
           echo ACCESS_TOKEN_LIFETIME_MINUTES=720 >> .local.env
           echo REFRESH_TOKEN_LIFETIME_MINUTES=5040 >> .local.env
           echo DB_LOGIN=postgres_user >> .local.env
@@ -77,6 +78,10 @@ jobs:
           echo YANDEX_REDIRECT_URI=http://localhost:8000/auth/yandex >> .local.env
           echo YANDEX_TOKEN_URI=https://oauth.yandex.ru/token >> .local.env
           echo TEST_GOOGLE_EMAIL=test@mail.com >> .local.env
+          echo FROM_EMAIL=fromemail@test.mail >> .local.env
+          echo SMTP_PORT=465 >> .local.env
+          echo SMTP_HOST=smtp.yandex.ru >> .local.env
+          echo SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }} >> .local.env
           cat .local.env
       - name: Run Unit Tests
         run: poetry run pytest tests/unit
