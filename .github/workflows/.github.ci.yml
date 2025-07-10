@@ -49,8 +49,34 @@ jobs:
       - name: 'Create env file'
         run: |
           touch .local.env
-          echo JWT_ENCODE_ALGORITHM="HS256" >> .local.env
+          echo JWT_ENCODE_ALGORITHM=HS256 >> .local.env
           echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .local.env
+          echo ACCESS_TOKEN_LIFETIME_MINUTES=720 >> .local.env
+          echo REFRESH_TOKEN_LIFETIME_MINUTES=5040 >> .local.env
+          echo DB_LOGIN=postgres_user >> .local.env
+          echo DB_PASS=postgres_password >> .local.env
+          echo DB_SERVER=localhost >> .local.env
+          echo DB_PORT=5430 >> .local.env
+          echo DB_NAME=pomodoro >> .local.env
+          echo DB_DRIVER=postgresql+asyncpg >> .local.env
+          echo REDIS_HOST=localhost >> .local.env
+          echo REDIS_PORT=6379 >> .local.env
+          echo REDIS_DB=0 >> .local.env
+          echo REDIS_PASSWORD=pass >> .local.env
+          echo REDIS_USER=user >> .local.env
+          echo REDIS_USER_PASSWORD=userpass >> .local.env
+          echo RABBITMQ_USER=guest >> .local.env
+          echo RABBITMQ_PASS=guest >> .local.env
+          echo RABBITMQ_PORT=5672 >> .local.env
+          echo GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }} >> .local.env
+          echo GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }} >> .local.env
+          echo GOOGLE_REDIRECT_URI=http://localhost:8000/auth/google >> .local.env
+          echo GOOGLE_TOKEN_URI=https://accounts.google.com/o/oauth2/token >> .local.env
+          echo YANDEX_CLIENT_ID=${{ secrets.YANDEX_CLIENT_ID }} >> .local.env
+          echo YANDEX_CLIENT_SECRET=${{ secrets.YANDEX_CLIENT_SECRET }} >> .local.env
+          echo YANDEX_REDIRECT_URI=http://localhost:8000/auth/yandex >> .local.env
+          echo YANDEX_TOKEN_URI=https://oauth.yandex.ru/token >> .local.env
+          echo TEST_GOOGLE_EMAIL=test@mail.com >> .local.env
           cat .local.env
       - name: Run Unit Tests
         run: poetry run pytest tests/unit
