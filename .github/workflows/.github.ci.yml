@@ -48,9 +48,9 @@ jobs:
           poetry install
       - name: 'Create env file'
         run: |
-          touch .env
-          echo JWT_ENCODE_ALGORITHM="HS256" >> .env
-          echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .env
-          cat .env
+          touch .local.env
+          echo JWT_ENCODE_ALGORITHM="HS256" >> .local.env
+          echo JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }} >> .local.env
+          cat .local.env
       - name: Run Unit Tests
         run: poetry run pytest tests/unit
